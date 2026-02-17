@@ -1,0 +1,207 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Photographe et videaste professionnel. Portrait, mariage, evenementiel et creation de contenus video.">
+  <title>E BERREL| Photographe & Videaste</title>
+
+  <link rel="icon" href="images/favicon_dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="images/favicon_light.ico" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true">
+    <span class="bg-bird bird-1" data-sx="-0.06" data-sy="0.22"></span>
+    <span class="bg-bird bird-2" data-sx="0.08" data-sy="0.18"></span>
+    <span class="bg-bird bird-3" data-sx="0.04" data-sy="-0.12"></span>
+    <span class="bg-bird bird-4" data-sx="-0.1" data-sy="0.15"></span>
+    <span class="bg-bird bird-5" data-sx="0.12" data-sy="0.1"></span>
+    <span class="bg-bird bird-6" data-sx="-0.05" data-sy="-0.16"></span>
+  </div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Retour en haut">
+      <img src="images/logo_light.png" alt="Logo Studio Visuel" class="brand-logo light-logo">
+      <img src="images/logo_dark.png" alt="Logo Studio Visuel" class="brand-logo dark-logo">
+      <span class="brand-name">BERREL</span>
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
+      <a href="#" data-tab-target="galerie">Galerie</a>
+      <a href="#" data-tab-target="boutique">Boutique</a>
+      <a href="#" data-tab-target="contact" class="cta-nav">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section tabs-section" id="tabs">
+      <article class="tab-panel is-active" role="tabpanel" id="panel-galerie" aria-labelledby="tab-galerie" data-tab-panel="galerie">
+        <section class="hero">
+          <div class="hero-content">
+            <p class="eyebrow">Photographe et videaste</p>
+            <h1>Des images fortes pour figer la lumière</h1>
+            <p class="hero-text">Je capture la lumière en plein vol, afin d'illustrer vos projets, vos événements ou votre image de marque</p>
+            <div class="hero-actions">
+              <a href="#" class="btn btn-primary" data-tab-target="boutique">Voir la boutique</a>
+              <a href="#" class="btn btn-secondary" data-tab-target="contact">Reserver un projet</a>
+            </div>
+          </div>
+          <div class="hero-visual" role="img" aria-label="Presentation visuelle du studio"></div>
+        </section>
+
+        <div class="section-heading">
+          <p class="eyebrow">Galerie</p>
+          <h2>Une selection de mes images</h2>
+        </div>
+        <div class="gallery-grid">
+          <article class="gallery-item gallery-1">
+            <div class="overlay">
+              <h3>Artistiques</h3>
+              <p>Pièces uniques</p>
+            </div>
+          </article>
+          <article class="gallery-item gallery-2">
+            <div class="overlay">
+              <h3>Commerciales</h3>
+              <p>Mise en avant</p>
+            </div>
+          </article>
+          <article class="gallery-item gallery-3">
+            <div class="overlay">
+              <h3>Portrait</h3>
+              <p>Visage et émotions</p>
+            </div>
+          </article>
+        </div>
+      </article>
+
+      <article class="tab-panel" role="tabpanel" id="panel-boutique" aria-labelledby="tab-boutique" data-tab-panel="boutique">
+        <div class="section-heading">
+          <p class="eyebrow">Boutique</p>
+          <h2>Tirages et packs disponibles</h2>
+        </div>
+        <div class="boutique-grid">
+          <article class="product-card">
+            <div class="product-visual product-1"></div>
+            <div class="product-body">
+              <h3>Tirage Fine Art A4</h3>
+              <p>Impression premium sur papier d'art.</p>
+              <strong>49 EUR</strong>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-visual product-2"></div>
+            <div class="product-body">
+              <h3>Tirage Fine Art A3</h3>
+              <p>Format expose galerie, rendu detaille.</p>
+              <strong>79 EUR</strong>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-visual product-3"></div>
+            <div class="product-body">
+              <h3>Pack Mariage Video</h3>
+              <p>Teaser cinematic + film complet.</p>
+              <strong>Sur devis</strong>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-visual product-4"></div>
+            <div class="product-body">
+              <h3>Pack Portrait Pro</h3>
+              <p>10 photos retouchees + mini reel.</p>
+              <strong>290 EUR</strong>
+            </div>
+          </article>
+        </div>
+      </article>
+
+      <article class="tab-panel contact" role="tabpanel" id="panel-contact" aria-labelledby="tab-contact" data-tab-panel="contact">
+        <div class="section-heading">
+          <p class="eyebrow">Contact</p>
+          <h2>Parlons de votre projet</h2>
+        </div>
+        <p>Disponibilites sur demande. Reponse sous 24h.</p>
+        <div class="contact-actions">
+          <a href="mailto:eberrel@outlook.fr" class="btn btn-primary">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6.5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M3.5 7l8.5 6.5L20.5 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            eberrel@outlook.fr
+          </a>
+          <a href="https://www.instagram.com/eltbrl/" class="btn btn-secondary">
+            <img src="images/Instagram_icon.png" alt="" class="btn-icon" aria-hidden="true">
+            @eltbrl
+          </a>
+          <a href="https://youdji.com/eliott.b" class="btn btn-secondary">
+            <img src="images/Youdji_icon.png" alt="" class="btn-icon" aria-hidden="true">
+            Youdji
+          </a>
+          
+        </div>
+      </article>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">A propos</p>
+        <h2>Un regard sensible et exigeant</h2>
+      </div>
+      <p>
+        Base en France, j'accompagne particuliers, entreprises et artistes dans la creation de visuels impactants.
+        Mon objectif: produire des images esthetiques, authentiques et utiles pour vos souvenirs comme pour votre communication.
+      </p>
+    </section>
+  </main>
+
+ 
+<br><br><br><br><br><br><br><br>
+
+
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Studio Visuel. Tous droits reserves.</p>
+  </footer>
+
+  <nav class="bottom-tabs" role="tablist" aria-label="Navigation onglets">
+    <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="panel-galerie" id="tab-galerie" data-tab-target="galerie">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+          <circle cx="9" cy="10" r="1.8"></circle>
+          <path d="M20.5 15l-4.6-4.6-5.2 5.2"></path>
+        </svg>
+      </span>
+      <span>Galerie</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-boutique" id="tab-boutique" data-tab-target="boutique">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"></path>
+          <path d="M9 7a3 3 0 1 1 6 0"></path>
+        </svg>
+      </span>
+      <span>Boutique</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-contact" id="tab-contact" data-tab-target="contact">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 6.5h16v11H4z"></path>
+          <path d="M4.5 7l7.5 6 7.5-6"></path>
+        </svg>
+      </span>
+      <span>Contact</span>
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
