@@ -1,0 +1,363 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Photographe et videaste professionnel. Portrait, mariage, evenementiel et creation de contenus video.">
+  <title>E BERREL| Photographe & Videaste</title>
+
+  <link rel="icon" href="images/favicon_dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="images/favicon_light.ico" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true">
+    <span class="bg-bird bird-1" data-sx="-0.06" data-sy="0.22"></span>
+    <span class="bg-bird bird-2" data-sx="0.08" data-sy="0.18"></span>
+    <span class="bg-bird bird-3" data-sx="0.04" data-sy="-0.12"></span>
+    <span class="bg-bird bird-4" data-sx="-0.1" data-sy="0.15"></span>
+    <span class="bg-bird bird-5" data-sx="0.12" data-sy="0.1"></span>
+    <span class="bg-bird bird-6" data-sx="-0.05" data-sy="-0.16"></span>
+  </div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html" aria-label="Retour en haut">
+      <img src="images/logo_light.png" alt="Logo Studio Visuel" class="brand-logo light-logo">
+      <img src="images/logo_dark.png" alt="Logo Studio Visuel" class="brand-logo dark-logo">
+      <span class="brand-name">BERREL</span>
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
+      <a href="#" data-tab-target="galerie">Galerie</a>
+      <a href="#" data-tab-target="boutique">Boutique</a>
+      <a href="#" data-tab-target="contact" class="cta-nav">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section art-gallery-section">
+      <div class="section-heading">
+        <p class="eyebrow">Galerie Artistique</p>
+        <h1>Toutes les photos</h1>
+      </div>
+
+      <div id="art-gallery-grid" class="art-gallery-grid" aria-live="polite"></div>
+
+      <div class="art-gallery-actions">
+        <button id="load-more-art" class="btn btn-primary" type="button">Charger plus</button>
+      </div>
+    </section>
+    
+    <section class="section about" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">A propos</p>
+        <h2>Un regard sensible et exigeant</h2>
+      </div>
+      <p>
+        Base en France, j'accompagne particuliers, entreprises et artistes dans la creation de visuels impactants.
+        Mon objectif: produire des images esthetiques, authentiques et utiles pour vos souvenirs comme pour votre communication.
+      </p>
+    </section>
+  </main>
+
+
+
+
+<br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
+
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Studio Visuel. Tous droits reserves.</p>
+  </footer>
+
+  <nav class="bottom-tabs" role="tablist" aria-label="Navigation onglets">
+    <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="panel-galerie" id="tab-galerie" data-tab-target="galerie">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+          <circle cx="9" cy="10" r="1.8"></circle>
+          <path d="M20.5 15l-4.6-4.6-5.2 5.2"></path>
+        </svg>
+      </span>
+      <span>Galerie</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-boutique" id="tab-boutique" data-tab-target="boutique">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"></path>
+          <path d="M9 7a3 3 0 1 1 6 0"></path>
+        </svg>
+      </span>
+      <span>Boutique</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-contact" id="tab-contact" data-tab-target="contact">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 6.5h16v11H4z"></path>
+          <path d="M4.5 7l7.5 6 7.5-6"></path>
+        </svg>
+      </span>
+      <span>Contact</span>
+    </button>
+  </nav>
+
+  <script>
+    (function () {
+      const photoFiles = [
+        'hero.jpg',
+        'art1.jpg',
+        'art2.jpg',
+        'art3.jpg',
+        'art4.jpg',
+        'art5.jpg',
+        'art6.jpg',
+        'art7.jpg',
+        'art8.jpg',
+        'art9.jpg',
+        'art10.jpg',
+        'art11.jpg',
+        'art12.jpg',
+        'art13.jpg',
+        'art14.jpg',
+        'art15.jpg',
+        'art16.jpg'
+      ];
+
+      const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
+      const sortedFiles = [...photoFiles].sort((a, b) => {
+        if (a.toLowerCase() === 'hero.jpg') return -1;
+        if (b.toLowerCase() === 'hero.jpg') return 1;
+        return collator.compare(a, b);
+      });
+
+      const grid = document.getElementById('art-gallery-grid');
+      const loadMoreButton = document.getElementById('load-more-art');
+      const batchSize = 12;
+      let renderedCount = 0;
+      const colorCache = new Map();
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function rgbToHsl(r, g, b) {
+        const rNorm = r / 255;
+        const gNorm = g / 255;
+        const bNorm = b / 255;
+        const max = Math.max(rNorm, gNorm, bNorm);
+        const min = Math.min(rNorm, gNorm, bNorm);
+        const delta = max - min;
+        let h = 0;
+        let s = 0;
+        const l = (max + min) / 2;
+
+        if (delta !== 0) {
+          s = delta / (1 - Math.abs(2 * l - 1));
+
+          switch (max) {
+            case rNorm:
+              h = 60 * (((gNorm - bNorm) / delta) % 6);
+              break;
+            case gNorm:
+              h = 60 * ((bNorm - rNorm) / delta + 2);
+              break;
+            default:
+              h = 60 * ((rNorm - gNorm) / delta + 4);
+              break;
+          }
+        }
+
+        return {
+          h: Math.round((h + 360) % 360),
+          s: Math.round(s * 100),
+          l: Math.round(l * 100)
+        };
+      }
+
+      function getDominantColorFromImage(image) {
+        return new Promise((resolve, reject) => {
+          if (!image.complete || image.naturalWidth === 0) {
+            reject(new Error('Image not ready'));
+            return;
+          }
+
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d', { willReadFrequently: true });
+
+          if (!context) {
+            reject(new Error('Canvas unavailable'));
+            return;
+          }
+
+          const sampleSize = 40;
+          canvas.width = sampleSize;
+          canvas.height = sampleSize;
+          context.drawImage(image, 0, 0, sampleSize, sampleSize);
+
+          const { data } = context.getImageData(0, 0, sampleSize, sampleSize);
+          let redWeighted = 0;
+          let greenWeighted = 0;
+          let blueWeighted = 0;
+          let weightSum = 0;
+
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            const a = data[i + 3];
+
+            if (a < 140) {
+              continue;
+            }
+
+            const hsl = rgbToHsl(r, g, b);
+            const saturationWeight = Math.max(0.2, hsl.s / 100);
+            const lightnessWeight = 1 - Math.abs(hsl.l - 52) / 52;
+            const weight = saturationWeight * Math.max(0.15, lightnessWeight);
+
+            redWeighted += r * weight;
+            greenWeighted += g * weight;
+            blueWeighted += b * weight;
+            weightSum += weight;
+          }
+
+          if (weightSum === 0) {
+            reject(new Error('No usable pixels'));
+            return;
+          }
+
+          resolve({
+            r: Math.round(redWeighted / weightSum),
+            g: Math.round(greenWeighted / weightSum),
+            b: Math.round(blueWeighted / weightSum)
+          });
+        });
+      }
+
+      function applyColorShadow(image, rgbColor) {
+        const hsl = rgbToHsl(rgbColor.r, rgbColor.g, rgbColor.b);
+        const shadowHue = hsl.h;
+        const shadowSat = clamp(hsl.s + 12, 35, 90);
+        const shadowLight = clamp(hsl.l - 4, 22, 62);
+        image.style.boxShadow = `0 18px 38px hsl(${shadowHue} ${shadowSat}% ${shadowLight}% / 0.42)`;
+      }
+
+      async function syncCardShadow(image) {
+        const cacheKey = image.currentSrc || image.src;
+
+        if (colorCache.has(cacheKey)) {
+          applyColorShadow(image, colorCache.get(cacheKey));
+          return;
+        }
+
+        try {
+          const rgbColor = await getDominantColorFromImage(image);
+          colorCache.set(cacheKey, rgbColor);
+          applyColorShadow(image, rgbColor);
+        } catch (error) {
+          // Keep CSS fallback shadow.
+        }
+      }
+
+      function setLoadMoreVisible(isVisible) {
+        loadMoreButton.style.visibility = isVisible ? 'visible' : 'hidden';
+        loadMoreButton.disabled = !isVisible;
+      }
+
+      function syncImageBoxSize(image, imageBox) {
+        imageBox.style.width = `${image.clientWidth}px`;
+        imageBox.style.height = `${image.clientHeight}px`;
+      }
+
+      function createPhotoCard(fileName) {
+        const figure = document.createElement('figure');
+        figure.className = 'art-photo-card';
+
+        const frame = document.createElement('div');
+        frame.className = 'art-photo-frame';
+
+        const imageBox = document.createElement('div');
+        imageBox.className = 'image-art-box';
+        imageBox.innerHTML = `
+        <button class="btn art-photo-action" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9V4h5"></path>
+            <path d="M20 9V4h-5"></path>
+            <path d="M4 15v5h5"></path>
+            <path d="M20 15v5h-5"></path>
+          </svg>
+          <span>Voir en grand</span>
+        </button>
+        <button class="btn art-photo-action" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 7z"></path>
+            <path d="M9 7a3 3 0 1 1 6 0"></path>
+          </svg>
+          <span>Ajouter au panier</span>
+        </button>
+        `;
+
+        const image = document.createElement('img');
+        image.className = 'image-art';
+        image.src = `galerie/art/${encodeURIComponent(fileName)}`;
+        image.alt = fileName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.addEventListener('load', () => {
+          syncCardShadow(image);
+          syncImageBoxSize(image, imageBox);
+        }, { once: true });
+
+        if ('ResizeObserver' in window) {
+          const observer = new ResizeObserver(() => {
+            syncImageBoxSize(image, imageBox);
+          });
+          observer.observe(image);
+        }
+
+        frame.appendChild(image);
+        frame.appendChild(imageBox);
+        figure.appendChild(frame);
+
+        if (image.complete && image.naturalWidth > 0) {
+          syncCardShadow(image);
+          syncImageBoxSize(image, imageBox);
+        }
+
+        return figure;
+      }
+
+      function renderNextBatch() {
+        const nextFiles = sortedFiles.slice(renderedCount, renderedCount + batchSize);
+        nextFiles.forEach((file) => {
+          grid.appendChild(createPhotoCard(file));
+        });
+        renderedCount += nextFiles.length;
+
+        if (renderedCount >= sortedFiles.length) {
+          setLoadMoreVisible(false);
+        }
+      }
+
+      if (sortedFiles.length === 0) {
+        setLoadMoreVisible(false);
+        grid.innerHTML = '<p>Aucune photo disponible.</p>';
+        return;
+      }
+
+      renderNextBatch();
+      loadMoreButton.addEventListener('click', renderNextBatch);
+      setLoadMoreVisible(sortedFiles.length > batchSize);
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
