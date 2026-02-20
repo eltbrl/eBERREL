@@ -128,7 +128,23 @@
         'art13.jpg',
         'art14.jpg',
         'art15.jpg',
-        'art16.jpg'
+        'art16.jpg',
+        'art17.jpg',
+        'art18.jpg',
+        'art19.jpg',
+        'art20.jpg',
+        'art21.jpg',
+        'art22.jpg',
+        'art23.jpg',
+        'art24.jpg',
+        'art25.jpg',
+        'art26.jpg',
+        'art27.jpg',
+        'art28.jpg',
+        'art29.jpg',
+        'art30.jpg',
+        'art31.jpg',
+        'art32.jpg'
       ];
 
       const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
@@ -141,6 +157,7 @@
       const grid = document.getElementById('art-gallery-grid');
       const loadMoreButton = document.getElementById('load-more-art');
       const batchSize = 12;
+      const largeImageRoot = 'galerie/art/grand';
       let renderedCount = 0;
       const colorCache = new Map();
 
@@ -277,6 +294,100 @@
         imageBox.style.height = `${image.clientHeight}px`;
       }
 
+      function createImageModal() {
+        const overlay = document.createElement('div');
+        overlay.className = 'image-lightbox';
+        overlay.innerHTML = `
+          <div class="image-lightbox__panel" role="dialog" aria-modal="true" aria-label="Photo en grand format">
+            <button class="image-lightbox__close" type="button" aria-label="Fermer">&times;</button>
+            <p class="image-lightbox__status">Chargement...</p>
+            <img class="image-lightbox__image" alt="" hidden>
+          </div>
+        `;
+
+        const panel = overlay.querySelector('.image-lightbox__panel');
+        const closeButton = overlay.querySelector('.image-lightbox__close');
+        const status = overlay.querySelector('.image-lightbox__status');
+        const modalImage = overlay.querySelector('.image-lightbox__image');
+
+        let candidates = [];
+        let candidateIndex = 0;
+
+        function resetImage() {
+          modalImage.hidden = true;
+          modalImage.removeAttribute('src');
+        }
+
+        function close() {
+          overlay.classList.remove('is-open');
+          document.body.classList.remove('lightbox-open');
+          resetImage();
+          status.hidden = false;
+          status.textContent = 'Chargement...';
+        }
+
+        function tryNextSource() {
+          if (candidateIndex >= candidates.length) {
+            resetImage();
+            status.hidden = false;
+            status.textContent = 'Image indisponible.';
+            return;
+          }
+
+          const nextSource = candidates[candidateIndex];
+          candidateIndex += 1;
+          modalImage.src = nextSource;
+        }
+
+        modalImage.addEventListener('load', () => {
+          status.hidden = true;
+          modalImage.hidden = false;
+        });
+
+        modalImage.addEventListener('error', tryNextSource);
+
+        closeButton.addEventListener('click', close);
+        overlay.addEventListener('click', (event) => {
+          if (event.target === overlay) {
+            close();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            close();
+          }
+        });
+
+        document.body.appendChild(overlay);
+
+        return {
+          open({ sources, alt }) {
+            candidates = sources.filter(Boolean);
+            candidateIndex = 0;
+            modalImage.alt = alt || '';
+            status.hidden = false;
+            status.textContent = 'Chargement...';
+            overlay.classList.add('is-open');
+            document.body.classList.add('lightbox-open');
+            tryNextSource();
+            panel.focus?.();
+          }
+        };
+      }
+
+      function buildLargeImageSources(fileName) {
+        const encoded = encodeURIComponent(fileName);
+        const encodedPrefixed = encodeURIComponent(`grand-${fileName}`);
+        return [
+          `${largeImageRoot}/${encoded}`,
+          `${largeImageRoot}/${encodedPrefixed}`,
+          `galerie/art/${encoded}`
+        ];
+      }
+
+      const imageModal = createImageModal();
+
       function createPhotoCard(fileName) {
         const figure = document.createElement('figure');
         figure.className = 'art-photo-card';
@@ -304,6 +415,7 @@
           <span>Ajouter au panier</span>
         </button>
         `;
+        const viewLargeButton = imageBox.querySelector('.art-photo-action');
 
         const image = document.createElement('img');
         image.className = 'image-art';
@@ -315,6 +427,13 @@
           syncCardShadow(image);
           syncImageBoxSize(image, imageBox);
         }, { once: true });
+
+        viewLargeButton.addEventListener('click', () => {
+          imageModal.open({
+            sources: buildLargeImageSources(fileName),
+            alt: image.alt
+          });
+        });
 
         if ('ResizeObserver' in window) {
           const observer = new ResizeObserver(() => {

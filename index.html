@@ -48,12 +48,41 @@
             <p class="eyebrow">Photographe et videaste</p>
             <h1>Des images fortes pour figer la lumière</h1>
             <p class="hero-text">Je capture la lumière en plein vol, afin d'illustrer vos projets, vos événements ou votre image de marque</p>
-            <div class="hero-actions">
-              <a href="#" class="btn btn-primary" data-tab-target="boutique">Voir la boutique</a>
-              <a href="#" class="btn btn-secondary" data-tab-target="contact">Reserver un projet</a>
+            <div class="hero-actions hero-actions-desktop">
+              <a href="#" class="btn btn-primary" data-tab-target="boutique">
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M9 7a3 3 0 1 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Voir la boutique
+              </a>
+              <a href="#" class="btn btn-secondary" data-tab-target="contact">
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="4" y="5.5" width="16" height="14.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></rect>
+                  <path d="M8 3.8v3.4M16 3.8v3.4M8 11.2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Reserver un projet
+              </a>
             </div>
           </div>
-          <div class="hero-visual" role="img" aria-label="Presentation visuelle du studio"></div>
+          <div class="hero-visual" role="img" aria-label="Presentation visuelle du studio">
+            <div class="hero-actions hero-actions-mobile">
+              <a href="#" class="btn btn-primary" data-tab-target="boutique">
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M9 7a3 3 0 1 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Voir la boutique
+              </a>
+              <a href="#" class="btn btn-secondary" data-tab-target="contact">
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="4" y="5.5" width="16" height="14.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></rect>
+                  <path d="M8 3.8v3.4M16 3.8v3.4M8 11.2h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Reserver un projet
+              </a>
+            </div>
+          </div>
         </section>
 
         <div class="section-heading">
@@ -124,6 +153,9 @@
       </article>
 
       <article class="tab-panel contact" role="tabpanel" id="panel-contact" aria-labelledby="tab-contact" data-tab-panel="contact">
+        <figure class="contact-panorama">
+          <img src="galerie/pano.jpg" alt="Panorama photo" loading="lazy" decoding="async">
+        </figure>
         <div class="section-heading">
           <p class="eyebrow">Contact</p>
           <h2>Parlons de votre projet</h2>

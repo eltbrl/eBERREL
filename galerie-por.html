@@ -188,20 +188,25 @@
   <script>
     (function () {
       const photoFiles = [
-        'casquette1.jpg',
-        'casquette2.jpg',
-        'casquette3.jpg',
-        'dark1.jpg',
-        'dark2.jpg',
-        'dark3.jpg',
+        'dark_sasuke1.jpg',
+        'dark_sasuke2.jpg',
+        'dark_sasuke3.jpg',
+        'mael1.jpg',
+        'mael2.jpg',
+        'mael3.jpg',
         'ella1.jpg',
         'ella2.jpg',
         'ella3.jpg',
         'ella4.jpg',
+        'adele1.jpg',
+        'adele2.jpg',
+        'adele3.jpg',
+        'adele4.jpg',
       ];
 
       const groupsContainer = document.getElementById('por-gallery-groups');
       const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
+      const largeImageRoot = 'galerie/por/grand';
 
       function extractGroupName(fileName) {
         const baseName = fileName.replace(/\.[^/.]+$/, '');
@@ -252,6 +257,98 @@
         imageBox.style.height = `${image.clientHeight}px`;
       }
 
+      function createImageModal() {
+        const overlay = document.createElement('div');
+        overlay.className = 'image-lightbox';
+        overlay.innerHTML = `
+          <div class="image-lightbox__panel" role="dialog" aria-modal="true" aria-label="Photo en grand format">
+            <button class="image-lightbox__close" type="button" aria-label="Fermer">&times;</button>
+            <p class="image-lightbox__status">Chargement...</p>
+            <img class="image-lightbox__image" alt="" hidden>
+          </div>
+        `;
+
+        const closeButton = overlay.querySelector('.image-lightbox__close');
+        const status = overlay.querySelector('.image-lightbox__status');
+        const modalImage = overlay.querySelector('.image-lightbox__image');
+
+        let candidates = [];
+        let candidateIndex = 0;
+
+        function resetImage() {
+          modalImage.hidden = true;
+          modalImage.removeAttribute('src');
+        }
+
+        function close() {
+          overlay.classList.remove('is-open');
+          document.body.classList.remove('lightbox-open');
+          resetImage();
+          status.hidden = false;
+          status.textContent = 'Chargement...';
+        }
+
+        function tryNextSource() {
+          if (candidateIndex >= candidates.length) {
+            resetImage();
+            status.hidden = false;
+            status.textContent = 'Image indisponible.';
+            return;
+          }
+
+          const nextSource = candidates[candidateIndex];
+          candidateIndex += 1;
+          modalImage.src = nextSource;
+        }
+
+        modalImage.addEventListener('load', () => {
+          status.hidden = true;
+          modalImage.hidden = false;
+        });
+
+        modalImage.addEventListener('error', tryNextSource);
+
+        closeButton.addEventListener('click', close);
+        overlay.addEventListener('click', (event) => {
+          if (event.target === overlay) {
+            close();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            close();
+          }
+        });
+
+        document.body.appendChild(overlay);
+
+        return {
+          open({ sources, alt }) {
+            candidates = sources.filter(Boolean);
+            candidateIndex = 0;
+            modalImage.alt = alt || '';
+            status.hidden = false;
+            status.textContent = 'Chargement...';
+            overlay.classList.add('is-open');
+            document.body.classList.add('lightbox-open');
+            tryNextSource();
+          }
+        };
+      }
+
+      function buildLargeImageSources(fileName) {
+        const encoded = encodeURIComponent(fileName);
+        const encodedPrefixed = encodeURIComponent(`grand-${fileName}`);
+        return [
+          `${largeImageRoot}/${encodedPrefixed}`,
+          `${largeImageRoot}/${encoded}`,
+          `galerie/por/${encoded}`
+        ];
+      }
+
+      const imageModal = createImageModal();
+
       function syncFeaturedLandscapeLayout(featuredCard, sideStack) {
         const featuredImage = featuredCard.querySelector('.image-art');
         if (!featuredImage || !sideStack || featuredImage.naturalWidth === 0) {
@@ -281,6 +378,7 @@
           <span>Voir en grand</span>
         </button>
         `;
+        const viewLargeButton = imageBox.querySelector('.art-photo-action');
 
         const image = document.createElement('img');
         image.className = 'image-art';
@@ -292,6 +390,13 @@
         image.addEventListener('load', () => {
           syncImageBoxSize(image, imageBox);
         }, { once: true });
+
+        viewLargeButton.addEventListener('click', () => {
+          imageModal.open({
+            sources: buildLargeImageSources(fileName),
+            alt: image.alt
+          });
+        });
 
         if ('ResizeObserver' in window) {
           const observer = new ResizeObserver(() => {

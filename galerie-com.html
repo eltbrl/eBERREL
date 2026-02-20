@@ -108,24 +108,29 @@
   <script>
     (function () {
       const photoFiles = [
-        'clavier2.jpg',
-        'clavier3.jpg',
-        'clavier4.jpg',
-        'clavier5.jpg',
-        'clavier6.jpg',
-        'couteau-suisse1.jpg',
-        'couteau-suisse2.jpg',
-        'couteau-suisse3.jpg',
-        'couteau-suisse4.jpg',
-        'couteau-suisse5.jpg',
-        'couteau-suisse6.jpg',
+        'jspmdr1.jpg',
+        'jspmdr2.jpg',
+        'jspmdr3.jpg',
+        'jspmdr4.jpg',
         'montre1.jpg',
         'montre2.jpg',
-        'montre3.jpg'
+        'montre3.jpg',
+        'montre4.jpg',
+        'montre5.jpg',
+        'montre6.jpg',
+        'macro1.jpg',
+        'macro2.jpg',
+        'macro3.jpg',
+        'metalique1.jpg',
+        'metalique2.jpg',
+        'metalique3.jpg',
+        'metalique4.jpg',
+        'metalique5.jpg'
       ];
 
       const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
       const groupsContainer = document.getElementById('com-gallery-groups');
+      const largeImageRoot = 'galerie/com/grand';
       const colorCache = new Map();
 
       function clamp(value, min, max) {
@@ -256,6 +261,98 @@
         imageBox.style.height = `${image.clientHeight}px`;
       }
 
+      function createImageModal() {
+        const overlay = document.createElement('div');
+        overlay.className = 'image-lightbox';
+        overlay.innerHTML = `
+          <div class="image-lightbox__panel" role="dialog" aria-modal="true" aria-label="Photo en grand format">
+            <button class="image-lightbox__close" type="button" aria-label="Fermer">&times;</button>
+            <p class="image-lightbox__status">Chargement...</p>
+            <img class="image-lightbox__image" alt="" hidden>
+          </div>
+        `;
+
+        const closeButton = overlay.querySelector('.image-lightbox__close');
+        const status = overlay.querySelector('.image-lightbox__status');
+        const modalImage = overlay.querySelector('.image-lightbox__image');
+
+        let candidates = [];
+        let candidateIndex = 0;
+
+        function resetImage() {
+          modalImage.hidden = true;
+          modalImage.removeAttribute('src');
+        }
+
+        function close() {
+          overlay.classList.remove('is-open');
+          document.body.classList.remove('lightbox-open');
+          resetImage();
+          status.hidden = false;
+          status.textContent = 'Chargement...';
+        }
+
+        function tryNextSource() {
+          if (candidateIndex >= candidates.length) {
+            resetImage();
+            status.hidden = false;
+            status.textContent = 'Image indisponible.';
+            return;
+          }
+
+          const nextSource = candidates[candidateIndex];
+          candidateIndex += 1;
+          modalImage.src = nextSource;
+        }
+
+        modalImage.addEventListener('load', () => {
+          status.hidden = true;
+          modalImage.hidden = false;
+        });
+
+        modalImage.addEventListener('error', tryNextSource);
+
+        closeButton.addEventListener('click', close);
+        overlay.addEventListener('click', (event) => {
+          if (event.target === overlay) {
+            close();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            close();
+          }
+        });
+
+        document.body.appendChild(overlay);
+
+        return {
+          open({ sources, alt }) {
+            candidates = sources.filter(Boolean);
+            candidateIndex = 0;
+            modalImage.alt = alt || '';
+            status.hidden = false;
+            status.textContent = 'Chargement...';
+            overlay.classList.add('is-open');
+            document.body.classList.add('lightbox-open');
+            tryNextSource();
+          }
+        };
+      }
+
+      function buildLargeImageSources(fileName) {
+        const encoded = encodeURIComponent(fileName);
+        const encodedPrefixed = encodeURIComponent(`grand-${fileName}`);
+        return [
+          `${largeImageRoot}/${encodedPrefixed}`,
+          `${largeImageRoot}/${encoded}`,
+          `galerie/com/${encoded}`
+        ];
+      }
+
+      const imageModal = createImageModal();
+
       function extractGroupName(fileName) {
         const baseName = fileName.replace(/\.[^/.]+$/, '');
         if (baseName.toLowerCase() === 'hero') {
@@ -293,6 +390,7 @@
           <span>Voir en grand</span>
         </button>
         `;
+        const viewLargeButton = imageBox.querySelector('.art-photo-action');
 
         const image = document.createElement('img');
         image.className = 'image-art';
@@ -304,6 +402,13 @@
           syncCardShadow(image);
           syncImageBoxSize(image, imageBox);
         }, { once: true });
+
+        viewLargeButton.addEventListener('click', () => {
+          imageModal.open({
+            sources: buildLargeImageSources(fileName),
+            alt: image.alt
+          });
+        });
 
         if ('ResizeObserver' in window) {
           const observer = new ResizeObserver(() => {
@@ -446,4 +551,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
