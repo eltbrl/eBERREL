@@ -467,6 +467,98 @@ main {
   justify-content: center;
 }
 
+.com-gallery-groups {
+  display: grid;
+  gap: 2.4rem;
+  margin-top: 2.5rem;
+}
+
+.com-group-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+}
+
+.com-group-row {
+  --edge-fade-size: 26px;
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.35rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.com-group-row::-webkit-scrollbar {
+  display: none;
+}
+
+.com-group-row .com-photo-card {
+  flex: 0 0 min(280px, 70vw);
+  scroll-snap-align: start;
+}
+
+.com-group-row.is-overflowing {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--edge-fade-size),
+    #000 calc(100% - var(--edge-fade-size)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--edge-fade-size),
+    #000 calc(100% - var(--edge-fade-size)),
+    transparent 100%
+  );
+}
+
+.com-group-row.is-overflowing.is-at-start {
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - var(--edge-fade-size)), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - var(--edge-fade-size)), transparent 100%);
+}
+
+.com-group-row.is-overflowing.is-at-end {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--edge-fade-size), #000 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--edge-fade-size), #000 100%);
+}
+
+.com-group-slider {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.com-slider-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 26, 22, 0.22);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(31, 26, 22, 0.12);
+}
+
+.com-group-slider.is-slider-active .com-slider-btn {
+  display: inline-flex;
+}
+
+.com-slider-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .gallery-item {
   position: relative;
   min-height: 280px;

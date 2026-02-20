@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Photographe et videaste professionnel. Portrait, mariage, evenementiel et creation de contenus video.">
+  <title>E BERREL| Photographe & Videaste</title>
+
+  <link rel="icon" href="images/favicon_dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="images/favicon_light.ico" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .por-gallery-groups {
+      display: grid;
+      gap: 2.4rem;
+      margin-top: 2.5rem;
+    }
+
+    .por-group{
+      margin-top: 3rem;
+    }
+    .por-group-title {
+      margin: 0 0 1rem;
+      font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+    }
+
+    .por-mosaic {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .por-mosaic.is-single {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: min(460px, 100%);
+    }
+
+    .por-featured-card {
+      aspect-ratio: auto;
+      height: var(--featured-target-height, auto);
+    }
+
+    .por-side-stack {
+      display: grid;
+      gap: 0.6rem;
+      width: clamp(240px, 32vw, 360px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: auto;
+      align-content: start;
+      justify-self: start;
+    }
+
+    .por-small-card {
+      grid-column: 1 / -1;
+      aspect-ratio: 4 / 3;
+    }
+
+    .por-photo-card img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+      box-shadow: 0 14px 30px rgba(31, 26, 22, 0.18);
+    }
+
+    .por-featured-card .image-art {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media (max-width: 900px) {
+      .por-mosaic {
+        grid-template-columns: 1fr;
+      }
+
+      .por-side-stack {
+        width: 100%;
+        gap: 0.7rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: auto;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .por-photo-card img {
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true">
+    <span class="bg-bird bird-1" data-sx="-0.06" data-sy="0.22"></span>
+    <span class="bg-bird bird-2" data-sx="0.08" data-sy="0.18"></span>
+    <span class="bg-bird bird-3" data-sx="0.04" data-sy="-0.12"></span>
+    <span class="bg-bird bird-4" data-sx="-0.1" data-sy="0.15"></span>
+    <span class="bg-bird bird-5" data-sx="0.12" data-sy="0.1"></span>
+    <span class="bg-bird bird-6" data-sx="-0.05" data-sy="-0.16"></span>
+  </div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="index.html" aria-label="Retour en haut">
+      <img src="images/logo_light.png" alt="Logo Studio Visuel" class="brand-logo light-logo">
+      <img src="images/logo_dark.png" alt="Logo Studio Visuel" class="brand-logo dark-logo">
+      <span class="brand-name">BERREL</span>
+    </a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
+      <a href="index.html#galerie" data-tab-target="galerie">Galerie</a>
+      <a href="index.html#boutique" data-tab-target="boutique">Boutique</a>
+      <a href="index.html#contact" data-tab-target="contact" class="cta-nav">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section art-gallery-section">
+      <div class="section-heading">
+        <p class="eyebrow">Galerie Portrait</p>
+        <h1>Exemples de shooting portraits :</h1>
+      </div>
+
+      <div id="por-gallery-groups" class="por-gallery-groups" aria-live="polite"></div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">A propos</p>
+        <h2>Un regard sensible et exigeant</h2>
+      </div>
+      <p>
+        Base en France, j'accompagne particuliers, entreprises et artistes dans la creation de visuels impactants.
+        Mon objectif: produire des images esthetiques, authentiques et utiles pour vos souvenirs comme pour votre communication.
+      </p>
+    </section>
+  </main>
+
+  <br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Studio Visuel. Tous droits reserves.</p>
+  </footer>
+
+  <nav class="bottom-tabs" role="tablist" aria-label="Navigation onglets">
+    <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="panel-galerie" id="tab-galerie" data-tab-target="galerie">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+          <circle cx="9" cy="10" r="1.8"></circle>
+          <path d="M20.5 15l-4.6-4.6-5.2 5.2"></path>
+        </svg>
+      </span>
+      <span>Galerie</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-boutique" id="tab-boutique" data-tab-target="boutique">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"></path>
+          <path d="M9 7a3 3 0 1 1 6 0"></path>
+        </svg>
+      </span>
+      <span>Boutique</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-contact" id="tab-contact" data-tab-target="contact">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 6.5h16v11H4z"></path>
+          <path d="M4.5 7l7.5 6 7.5-6"></path>
+        </svg>
+      </span>
+      <span>Contact</span>
+    </button>
+  </nav>
+
+  <script>
+    (function () {
+      const photoFiles = [
+        'casquette1.jpg',
+        'casquette2.jpg',
+        'casquette3.jpg',
+        'dark1.jpg',
+        'dark2.jpg',
+        'dark3.jpg',
+        'ella1.jpg',
+        'ella2.jpg',
+        'ella3.jpg',
+        'ella4.jpg',
+      ];
+
+      const groupsContainer = document.getElementById('por-gallery-groups');
+      const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
+
+      function extractGroupName(fileName) {
+        const baseName = fileName.replace(/\.[^/.]+$/, '');
+        if (baseName.toLowerCase() === 'hero') {
+          return 'hero';
+        }
+        return baseName.replace(/\d+$/, '').replace(/[-_]+$/g, '');
+      }
+
+      function prettyGroupName(groupName) {
+        if (groupName === 'hero') {
+          return 'Mise en avant';
+        }
+
+        return groupName
+          .replace(/[-_]+/g, ' ')
+          .replace(/\b\w/g, (letter) => letter.toUpperCase());
+      }
+
+      function groupFiles(files) {
+        const grouped = new Map();
+
+        files.forEach((fileName) => {
+          const groupName = extractGroupName(fileName);
+          if (!grouped.has(groupName)) {
+            grouped.set(groupName, []);
+          }
+          grouped.get(groupName).push(fileName);
+        });
+
+        const entries = [...grouped.entries()];
+
+        entries.forEach(([, groupFilesList]) => {
+          groupFilesList.sort((a, b) => collator.compare(a, b));
+        });
+
+        entries.sort(([a], [b]) => {
+          if (a === 'hero') return -1;
+          if (b === 'hero') return 1;
+          return collator.compare(a, b);
+        });
+
+        return entries;
+      }
+
+      function syncImageBoxSize(image, imageBox) {
+        imageBox.style.width = `${image.clientWidth}px`;
+        imageBox.style.height = `${image.clientHeight}px`;
+      }
+
+      function syncFeaturedLandscapeLayout(featuredCard, sideStack) {
+        const featuredImage = featuredCard.querySelector('.image-art');
+        if (!featuredImage || !sideStack || featuredImage.naturalWidth === 0) {
+          return;
+        }
+
+        featuredCard.style.setProperty('--featured-target-height', `${sideStack.offsetHeight}px`);
+      }
+
+      function createPhotoCard(fileName, cardClassName) {
+        const figure = document.createElement('figure');
+        figure.className = `art-photo-card por-photo-card ${cardClassName || ''}`.trim();
+
+        const frame = document.createElement('div');
+        frame.className = 'art-photo-frame';
+
+        const imageBox = document.createElement('div');
+        imageBox.className = 'image-art-box';
+        imageBox.innerHTML = `
+        <button class="btn art-photo-action" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9V4h5"></path>
+            <path d="M20 9V4h-5"></path>
+            <path d="M4 15v5h5"></path>
+            <path d="M20 15v5h-5"></path>
+          </svg>
+          <span>Voir en grand</span>
+        </button>
+        `;
+
+        const image = document.createElement('img');
+        image.className = 'image-art';
+        image.src = `galerie/por/${encodeURIComponent(fileName)}`;
+        image.alt = fileName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+        image.loading = 'lazy';
+        image.decoding = 'async';
+
+        image.addEventListener('load', () => {
+          syncImageBoxSize(image, imageBox);
+        }, { once: true });
+
+        if ('ResizeObserver' in window) {
+          const observer = new ResizeObserver(() => {
+            syncImageBoxSize(image, imageBox);
+          });
+          observer.observe(image);
+        }
+
+        frame.appendChild(image);
+        frame.appendChild(imageBox);
+        figure.appendChild(frame);
+
+        if (image.complete && image.naturalWidth > 0) {
+          syncImageBoxSize(image, imageBox);
+        }
+
+        return figure;
+      }
+
+      function renderGroups() {
+        const groupedFiles = groupFiles(photoFiles);
+
+        if (groupedFiles.length === 0) {
+          groupsContainer.innerHTML = '<p>Aucune photo disponible.</p>';
+          return;
+        }
+
+        groupedFiles.forEach(([groupName, files]) => {
+          const section = document.createElement('section');
+          section.className = 'por-group';
+
+          const title = document.createElement('h2');
+          title.className = 'por-group-title';
+          title.textContent = prettyGroupName(groupName);
+
+          const mosaic = document.createElement('div');
+          mosaic.className = 'por-mosaic';
+
+          const featuredCard = createPhotoCard(files[0], 'por-featured-card');
+          mosaic.appendChild(featuredCard);
+
+          const remainingFiles = files.slice(1);
+          if (remainingFiles.length === 0) {
+            mosaic.classList.add('is-single');
+          } else {
+            const sideStack = document.createElement('div');
+            sideStack.className = 'por-side-stack';
+
+            remainingFiles.forEach((fileName) => {
+              sideStack.appendChild(createPhotoCard(fileName, 'por-small-card'));
+            });
+
+            mosaic.appendChild(sideStack);
+
+            const featuredImage = featuredCard.querySelector('.image-art');
+            const syncLayout = () => {
+              syncFeaturedLandscapeLayout(featuredCard, sideStack);
+            };
+
+            if (featuredImage && !featuredImage.complete) {
+              featuredImage.addEventListener('load', syncLayout, { once: true });
+            } else {
+              syncLayout();
+            }
+
+            window.addEventListener('resize', syncLayout, { passive: true });
+            if ('ResizeObserver' in window) {
+              const observer = new ResizeObserver(syncLayout);
+              observer.observe(sideStack);
+            }
+          }
+
+          section.appendChild(title);
+          section.appendChild(mosaic);
+          groupsContainer.appendChild(section);
+        });
+      }
+
+      renderGroups();
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

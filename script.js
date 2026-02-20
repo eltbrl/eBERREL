@@ -5,6 +5,8 @@ const tabTriggers = document.querySelectorAll('[data-tab-target]');
 const tabButtons = document.querySelectorAll('.tab-btn');
 const tabPanels = document.querySelectorAll('[data-tab-panel]');
 const tabsSection = document.querySelector('#tabs');
+const availableTabs = new Set([...tabPanels].map((panel) => panel.dataset.tabPanel).filter(Boolean));
+const isTabsPage = Boolean(tabsSection && availableTabs.size > 0);
 const siteHeader = document.querySelector('.site-header');
 const mainContent = document.querySelector('main');
 const aboutSection = document.querySelector('.about');
@@ -45,14 +47,37 @@ function activateTab(tabName) {
 }
 
 tabTriggers.forEach((trigger) => {
+  const tabName = trigger.dataset.tabTarget;
+
+  if (!tabName || trigger.tagName !== 'A') {
+    return;
+  }
+
+  trigger.setAttribute('href', isTabsPage ? `#${tabName}` : `index.html#${tabName}`);
+});
+
+tabTriggers.forEach((trigger) => {
   trigger.addEventListener('click', (event) => {
-    event.preventDefault();
     const tabName = trigger.dataset.tabTarget;
 
     if (!tabName) {
       return;
     }
 
+    if (!isTabsPage) {
+      const destination = `index.html#${tabName}`;
+      if (trigger.tagName !== 'A') {
+        event.preventDefault();
+      }
+      window.location.href = destination;
+      return;
+    }
+
+    if (!availableTabs.has(tabName)) {
+      return;
+    }
+
+    event.preventDefault();
     activateTab(tabName);
 
     if (tabsSection && !trigger.classList.contains('tab-btn')) {
@@ -66,7 +91,10 @@ tabTriggers.forEach((trigger) => {
   });
 });
 
-activateTab('galerie');
+if (isTabsPage) {
+  const hashTab = window.location.hash.replace(/^#/, '');
+  activateTab(availableTabs.has(hashTab) ? hashTab : 'galerie');
+}
 
 const sectionsToReveal = document.querySelectorAll('.section, .hero');
 

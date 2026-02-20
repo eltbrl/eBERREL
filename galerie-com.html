@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -43,15 +43,11 @@
   <main>
     <section class="section art-gallery-section">
       <div class="section-heading">
-        <p class="eyebrow">Galerie Artistique</p>
-        <h1>Toutes les photos</h1>
+        <p class="eyebrow">Galerie Commerciale</p>
+        <h1>Exemples de présentations de produits :</h1>
       </div>
 
-      <div id="art-gallery-grid" class="art-gallery-grid" aria-live="polite"></div>
-
-      <div class="art-gallery-actions">
-        <button id="load-more-art" class="btn btn-primary" type="button">Charger plus</button>
-      </div>
+      <div id="com-gallery-groups" class="com-gallery-groups" aria-live="polite"></div>
     </section>
     
     <section class="section about" id="about">
@@ -112,36 +108,24 @@
   <script>
     (function () {
       const photoFiles = [
-        'hero.jpg',
-        'art1.jpg',
-        'art2.jpg',
-        'art3.jpg',
-        'art4.jpg',
-        'art5.jpg',
-        'art6.jpg',
-        'art7.jpg',
-        'art8.jpg',
-        'art9.jpg',
-        'art10.jpg',
-        'art11.jpg',
-        'art12.jpg',
-        'art13.jpg',
-        'art14.jpg',
-        'art15.jpg',
-        'art16.jpg'
+        'clavier2.jpg',
+        'clavier3.jpg',
+        'clavier4.jpg',
+        'clavier5.jpg',
+        'clavier6.jpg',
+        'couteau-suisse1.jpg',
+        'couteau-suisse2.jpg',
+        'couteau-suisse3.jpg',
+        'couteau-suisse4.jpg',
+        'couteau-suisse5.jpg',
+        'couteau-suisse6.jpg',
+        'montre1.jpg',
+        'montre2.jpg',
+        'montre3.jpg'
       ];
 
       const collator = new Intl.Collator('fr', { numeric: true, sensitivity: 'base' });
-      const sortedFiles = [...photoFiles].sort((a, b) => {
-        if (a.toLowerCase() === 'hero.jpg') return -1;
-        if (b.toLowerCase() === 'hero.jpg') return 1;
-        return collator.compare(a, b);
-      });
-
-      const grid = document.getElementById('art-gallery-grid');
-      const loadMoreButton = document.getElementById('load-more-art');
-      const batchSize = 12;
-      let renderedCount = 0;
+      const groupsContainer = document.getElementById('com-gallery-groups');
       const colorCache = new Map();
 
       function clamp(value, min, max) {
@@ -267,19 +251,31 @@
         }
       }
 
-      function setLoadMoreVisible(isVisible) {
-        loadMoreButton.style.visibility = isVisible ? 'visible' : 'hidden';
-        loadMoreButton.disabled = !isVisible;
-      }
-
       function syncImageBoxSize(image, imageBox) {
         imageBox.style.width = `${image.clientWidth}px`;
         imageBox.style.height = `${image.clientHeight}px`;
       }
 
+      function extractGroupName(fileName) {
+        const baseName = fileName.replace(/\.[^/.]+$/, '');
+        if (baseName.toLowerCase() === 'hero') {
+          return 'hero';
+        }
+        return baseName.replace(/\d+$/, '').replace(/[-_]+$/g, '');
+      }
+
+      function prettyGroupName(groupName) {
+        if (groupName === 'hero') {
+          return 'Mise en avant';
+        }
+        return groupName
+          .replace(/[-_]+/g, ' ')
+          .replace(/\b\w/g, (match) => match.toUpperCase());
+      }
+
       function createPhotoCard(fileName) {
         const figure = document.createElement('figure');
-        figure.className = 'art-photo-card';
+        figure.className = 'art-photo-card com-photo-card';
 
         const frame = document.createElement('div');
         frame.className = 'art-photo-frame';
@@ -296,18 +292,11 @@
           </svg>
           <span>Voir en grand</span>
         </button>
-        <button class="btn art-photo-action" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 7h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 7z"></path>
-            <path d="M9 7a3 3 0 1 1 6 0"></path>
-          </svg>
-          <span>Ajouter au panier</span>
-        </button>
         `;
 
         const image = document.createElement('img');
         image.className = 'image-art';
-        image.src = `galerie/art/${encodeURIComponent(fileName)}`;
+        image.src = `galerie/com/${encodeURIComponent(fileName)}`;
         image.alt = fileName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
         image.loading = 'lazy';
         image.decoding = 'async';
@@ -335,29 +324,126 @@
         return figure;
       }
 
-      function renderNextBatch() {
-        const nextFiles = sortedFiles.slice(renderedCount, renderedCount + batchSize);
-        nextFiles.forEach((file) => {
-          grid.appendChild(createPhotoCard(file));
+      function groupFiles(files) {
+        const grouped = new Map();
+
+        files.forEach((fileName) => {
+          const groupName = extractGroupName(fileName);
+          if (!grouped.has(groupName)) {
+            grouped.set(groupName, []);
+          }
+          grouped.get(groupName).push(fileName);
         });
-        renderedCount += nextFiles.length;
 
-        if (renderedCount >= sortedFiles.length) {
-          setLoadMoreVisible(false);
+        const groupEntries = [...grouped.entries()];
+        groupEntries.forEach(([, groupFilesList]) => {
+          groupFilesList.sort((a, b) => collator.compare(a, b));
+        });
+
+        groupEntries.sort(([a], [b]) => {
+          if (a === 'hero') return -1;
+          if (b === 'hero') return 1;
+          return collator.compare(a, b);
+        });
+
+        return groupEntries;
+      }
+
+      function setupSectionSlider(slider, row, prevButton, nextButton) {
+        const epsilon = 2;
+
+        function updateSliderState() {
+          const hasOverflow = row.scrollWidth - row.clientWidth > epsilon;
+          const atStart = row.scrollLeft <= epsilon;
+          const atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - epsilon;
+
+          slider.classList.toggle('is-slider-active', hasOverflow);
+          row.classList.toggle('is-overflowing', hasOverflow);
+          row.classList.toggle('is-at-start', atStart);
+          row.classList.toggle('is-at-end', atEnd);
+          prevButton.disabled = !hasOverflow || atStart;
+          nextButton.disabled = !hasOverflow || atEnd;
         }
+
+        prevButton.addEventListener('click', () => {
+          row.scrollBy({
+            left: -Math.round(row.clientWidth * 0.85),
+            behavior: 'smooth'
+          });
+        });
+
+        nextButton.addEventListener('click', () => {
+          row.scrollBy({
+            left: Math.round(row.clientWidth * 0.85),
+            behavior: 'smooth'
+          });
+        });
+
+        row.addEventListener('scroll', updateSliderState, { passive: true });
+        window.addEventListener('resize', updateSliderState, { passive: true });
+
+        if ('ResizeObserver' in window) {
+          const observer = new ResizeObserver(updateSliderState);
+          observer.observe(row);
+        }
+
+        updateSliderState();
       }
 
-      if (sortedFiles.length === 0) {
-        setLoadMoreVisible(false);
-        grid.innerHTML = '<p>Aucune photo disponible.</p>';
-        return;
+      function renderGroups() {
+        const groupedFiles = groupFiles(photoFiles);
+
+        if (groupedFiles.length === 0) {
+          groupsContainer.innerHTML = '<p>Aucune photo disponible.</p>';
+          return;
+        }
+
+        groupedFiles.forEach(([groupName, files]) => {
+          const section = document.createElement('section');
+          section.className = 'com-group';
+
+          const title = document.createElement('h2');
+          title.className = 'com-group-title';
+          title.textContent = prettyGroupName(groupName);
+
+          const slider = document.createElement('div');
+          slider.className = 'com-group-slider';
+
+          const prevButton = document.createElement('button');
+          prevButton.className = 'com-slider-btn com-slider-btn-prev';
+          prevButton.type = 'button';
+          prevButton.setAttribute('aria-label', 'Defiler vers la gauche');
+          prevButton.innerHTML = '&#8249;';
+
+          const row = document.createElement('div');
+          row.className = 'com-group-row';
+
+          const nextButton = document.createElement('button');
+          nextButton.className = 'com-slider-btn com-slider-btn-next';
+          nextButton.type = 'button';
+          nextButton.setAttribute('aria-label', 'Defiler vers la droite');
+          nextButton.innerHTML = '&#8250;';
+
+          files.forEach((fileName) => {
+            row.appendChild(createPhotoCard(fileName));
+          });
+
+          slider.appendChild(prevButton);
+          slider.appendChild(row);
+          slider.appendChild(nextButton);
+
+          section.appendChild(title);
+          section.appendChild(slider);
+          groupsContainer.appendChild(section);
+
+          setupSectionSlider(slider, row, prevButton, nextButton);
+        });
       }
 
-      renderNextBatch();
-      loadMoreButton.addEventListener('click', renderNextBatch);
-      setLoadMoreVisible(sortedFiles.length > batchSize);
+      renderGroups();
     })();
   </script>
   <script src="script.js"></script>
 </body>
 </html>
+
