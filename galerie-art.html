@@ -427,24 +427,6 @@
         const confirmButton = overlay.querySelector('.print-modal__confirm');
         const optionGroups = overlay.querySelectorAll('.print-modal__options');
 
-        function hasRequiredSelections() {
-          const paperGroup = optionGroups[0];
-          const formatGroup = optionGroups[1];
-          const hasPaper = Boolean(paperGroup?.querySelector('.print-modal__option.is-selected'));
-          const hasFormat = Boolean(formatGroup?.querySelector('.print-modal__option.is-selected'));
-          return hasPaper && hasFormat;
-        }
-
-        function syncConfirmState() {
-          if (!confirmButton) {
-            return;
-          }
-
-          const isEnabled = hasRequiredSelections();
-          confirmButton.disabled = !isEnabled;
-          confirmButton.setAttribute('aria-disabled', String(!isEnabled));
-        }
-
         function getSelectedOptionLabel(group) {
           const selectedOption = group?.querySelector('.print-modal__option.is-selected');
           if (!selectedOption) {
@@ -454,6 +436,11 @@
         }
 
         function sendSelectedPrintOptions(selection) {
+          console.log(selection)
+          if (selection.printFormat == "Non selectionne" || selection.paperType == "Non selectionne"){
+            alert ("Veuillez selectionner un format");
+            return
+          }
           alert(
             `Type de papier: ${selection.paperType}\nFormat d'impression: ${selection.printFormat}`
           );
@@ -473,17 +460,12 @@
               });
               option.classList.add('is-selected');
               option.setAttribute('aria-pressed', 'true');
-              syncConfirmState();
             });
           });
         });
 
         if (confirmButton) {
           confirmButton.addEventListener('click', () => {
-            if (!hasRequiredSelections()) {
-              return;
-            }
-
             const paperGroup = optionGroups[0];
             const formatGroup = optionGroups[1];
             const selection = {
@@ -514,13 +496,11 @@
         });
 
         document.body.appendChild(overlay);
-        syncConfirmState();
 
         return {
           open() {
             overlay.classList.add('is-open');
             document.body.classList.add('lightbox-open');
-            syncConfirmState();
           }
         };
       }
