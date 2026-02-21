@@ -393,12 +393,12 @@
         overlay.innerHTML = `
           <div class="print-modal__panel" role="dialog" aria-modal="true" aria-label="Choix d'impression">
             <button class="print-modal__close" type="button" aria-label="Fermer">&times;</button>
-            <h2 class="print-modal__title">Choisir votre tirage</h2>
-            <p class="print-modal__subtitle">Sélectionnez un format et un type d'impression.</p>
+            <h2 class="print-modal__title" style="text-align: center;">Choisissez le format</h2>
+            <br>
 
             <div class="print-modal__group">
               <span class="print-modal__label">Type de papier</span>
-              <div class="print-modal__options" role="group" aria-label="Choix du type de papier">
+              <div class="print-modal__options print-modal__options--paper" role="group" aria-label="Choix du type de papier">
                 <button class="btn print-modal__option is-selected" type="button" aria-pressed="true">Papier brillant</button>
                 <button class="btn print-modal__option" type="button" aria-pressed="false">Papier mat</button>
               </div>
@@ -406,11 +406,12 @@
 
             <div class="print-modal__group">
               <span class="print-modal__label">Format d'impression</span>
-              <div class="print-modal__options" role="group" aria-label="Choix du format d'impression">
+              <div class="print-modal__options print-modal__options--format" role="group" aria-label="Choix du format d'impression">
                 <button class="btn print-modal__option print-modal__option--format" type="button"><span>A5 - 5€</span><span class="dim">(14,8 x 21 cm)</span></button>
                 <button class="btn print-modal__option print-modal__option--format" type="button"><span>A4 - 10€</span><span class="dim">(21 x 29,7 cm)</span></button>
                 <button class="btn print-modal__option print-modal__option--format" type="button"><span>A3 - 20€</span><span class="dim">(29,7 x 42 cm)</span></button>
                 <button class="btn print-modal__option print-modal__option--format" type="button"><span>A2 - 45</span><span class="dim">(42 x 59,4 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>NFT</span><span class="dim">(format numérique)</span></button>
               </div>
             </div>
             <button class="btn btn-primary print-modal__confirm" type="button">

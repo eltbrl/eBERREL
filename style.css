@@ -616,6 +616,28 @@ body.lightbox-open {
   gap: 0.5rem;
 }
 
+.print-modal__options--paper .print-modal__option {
+  flex: 1 1 0;
+  width: calc(50% - 0.25rem);
+  justify-content: center;
+}
+
+.print-modal__options--format {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.print-modal__options--format .print-modal__option {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.print-modal__options--format .print-modal__option:last-child {
+  grid-column: 1 / -1;
+}
+
 .print-modal__option {
   border: 1px solid rgba(31, 26, 22, 0.2);
   background: color-mix(in srgb, var(--surface) 88%, var(--accent) 12%);
