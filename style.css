@@ -1014,9 +1014,9 @@ body.content-frozen main {
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100dvh - var(--header-height));
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  text-align: center;
+  text-align: left;
   padding: 2.4rem 1rem calc(2.8rem + 92px);
   backdrop-filter: blur(12px);
   background: rgba(242, 238, 231, 0.85);
@@ -1026,6 +1026,147 @@ body.content-frozen main {
   transition: transform 0.08s linear;
 }
 
+.footer-shell {
+  width: min(1150px, 90vw);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-main {
+  display: grid;
+  gap: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.footer-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--surface) 92%, transparent), color-mix(in srgb, var(--surface) 78%, var(--accent) 22%));
+  box-shadow: 0 12px 28px rgba(31, 26, 22, 0.1);
+  transition: box-shadow 0.25s ease;
+}
+
+.footer-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--surface) 84%, var(--accent) 16%), color-mix(in srgb, var(--surface) 70%, var(--accent-2) 30%));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 0;
+}
+
+.footer-block:hover::before {
+  opacity: 1;
+}
+
+.footer-block > * {
+  position: relative;
+  z-index: 1;
+}
+
+.footer-block h3 {
+  margin: 0 0 0.2rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.footer-block p {
+  color: var(--muted);
+}
+
+.footer-block a {
+  width: fit-content;
+  color: var(--ink);
+  text-decoration: none;
+  /* border-bottom: 1px solid color-mix(in srgb, var(--ink) 28%, transparent); */
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-block a:hover {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+  transform: translateX(2px);
+}
+
+.footer-cta .btn {
+  margin-top: 0.45rem;
+  text-decoration: none;
+}
+
+.footer-cta .footer-cta-btn {
+  width: 100%;
+  align-self: stretch;
+  justify-content: center;
+  white-space: nowrap;
+}
+.footer-cta .footer-cta-btn:hover{
+  color: var(--ink);
+}
+.footer-cta {
+  background:
+    linear-gradient(170deg, color-mix(in srgb, var(--accent) 18%, var(--surface)), color-mix(in srgb, var(--accent-2) 18%, var(--surface)));
+  border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+
+.footer-meta {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--muted);
+}
+
+.footer-copyright {
+  position: absolute;
+  left: 50%;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  margin: 0;
+  width: calc(100% - 2rem);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.1rem;
+  justify-content: center;
+}
+
+.footer-legal a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--muted) 42%, transparent);
+  transition: 0.25s;
+}
+.footer-legal a:hover {
+  color: var(--accent);
+}
 body.footer-revealing .bottom-tabs {
   opacity: calc(1 - var(--footer-progress));
   transform: translateX(-50%) translateY(calc(var(--footer-progress) * 120%));
@@ -1131,6 +1272,10 @@ body.footer-visible .bottom-tabs {
     grid-template-columns: 1fr;
   }
 
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .menu-toggle {
     display: block;
   }
@@ -1196,6 +1341,17 @@ body.footer-visible .bottom-tabs {
   }
 }
 
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid .footer-block:not(.footer-cta) {
+    display: none;
+  }
+
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #121110;
@@ -1250,5 +1406,11 @@ body.footer-visible .bottom-tabs {
     background: rgba(26, 24, 22, 0.88);
     border-color: rgba(247, 241, 234, 0.16);
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@media (max-width: 900px) {
+  .bottom-tabs {
+    background: transparent;
   }
 }

@@ -60,6 +60,7 @@ tabTriggers.forEach((trigger) => {
 tabTriggers.forEach((trigger) => {
   trigger.addEventListener('click', (event) => {
     const tabName = trigger.dataset.tabTarget;
+    const shouldScrollTop = trigger.dataset.scrollTop === 'true';
 
     if (!tabName) {
       return;
@@ -80,8 +81,13 @@ tabTriggers.forEach((trigger) => {
 
     event.preventDefault();
     activateTab(tabName);
+    if (window.location.hash !== `#${tabName}`) {
+      window.location.hash = tabName;
+    }
 
-    if (tabsSection && !trigger.classList.contains('tab-btn')) {
+    if (shouldScrollTop) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tabsSection && !trigger.classList.contains('tab-btn')) {
       tabsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
