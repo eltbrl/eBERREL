@@ -531,6 +531,134 @@ body.lightbox-open {
   text-align: center;
 }
 
+.image-lightbox__add {
+  position: absolute;
+  left: 50%;
+  bottom: 0.9rem;
+  transform: translateX(-50%);
+  z-index: 2;
+  white-space: nowrap;
+  background: rgba(31, 26, 22, 0.82);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.image-lightbox__add:hover {
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.print-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1250;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: min(4vw, 1.25rem);
+  background: rgba(10, 10, 10, 0.72);
+}
+
+.print-modal.is-open {
+  display: flex;
+}
+
+.print-modal__panel {
+  position: relative;
+  width: min(92vw, 560px);
+  max-height: 92vh;
+  overflow: auto;
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 1.3rem;
+  box-shadow: 0 26px 56px rgba(0, 0, 0, 0.4);
+}
+
+.print-modal__close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  color: var(--ink);
+}
+
+.print-modal__title {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+}
+
+.print-modal__subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+
+.print-modal__group {
+  margin-top: 1rem;
+}
+
+.print-modal__label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-weight: 700;
+}
+
+.print-modal__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.print-modal__option {
+  border: 1px solid rgba(31, 26, 22, 0.2);
+  background: color-mix(in srgb, var(--surface) 88%, var(--accent) 12%);
+  color: var(--ink);
+}
+.print-modal__option .dim{
+  color: var(--accent);
+}
+
+.print-modal__option.is-selected {
+  background: var(--muted);
+  color: var(--bg);
+  border-color: transparent;
+}
+
+.print-modal__option--format {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  line-height: 1.2;
+}
+
+.print-modal__option--format span:last-child {
+  font-size: 0.82em;
+  opacity: 0.88;
+}
+
+.print-modal__confirm {
+  margin-top: 1.2rem;
+  width: 100%;
+}
+
+.print-modal__confirm svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .art-photo-card img {
   display: block;
   max-width: 100cqw;
@@ -730,6 +858,7 @@ body.lightbox-open {
 }
 
 .product-card {
+  position: relative;
   background: var(--surface);
   border-radius: var(--radius);
   overflow: hidden;
@@ -737,16 +866,88 @@ body.lightbox-open {
 }
 
 .product-visual {
+  position: relative;
   min-height: 190px;
-  background:
-    linear-gradient(135deg, rgba(31, 26, 22, 0.18), rgba(31, 26, 22, 0.72)),
-    /* url('images/logo_fond.png') center/cover no-repeat; */
+  overflow: hidden;
+  isolation: isolate;
+  --product-zoom: 1;
 }
 
-.product-1 { filter: hue-rotate(0deg); }
-.product-2 { filter: hue-rotate(14deg) saturate(1.02); }
-.product-3 { filter: hue-rotate(-10deg) brightness(0.95); }
-.product-4 { filter: hue-rotate(22deg) saturate(0.92); }
+.product-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--product-image, url('galerie/hero-boutique1.jpg')) center/cover no-repeat;
+  filter: var(--product-filter, none);
+  transform: scale(var(--product-zoom));
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+.product-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(160deg, rgba(31, 26, 22, 0.18), rgba(31, 26, 22, 0.58));
+}
+
+.product-card:hover .product-visual {
+  --product-zoom: 1.06;
+}
+
+.product-visual-action {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, calc(-50% + 10px));
+  opacity: 0;
+  pointer-events: none;
+  color: #fff;
+  background: rgba(31, 26, 22, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  white-space: nowrap;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.product-visual-action svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.product-visual:hover .product-visual-action {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+
+.product-1 {
+  --product-image: url('galerie/hero-boutique1.jpg');
+  --product-filter: hue-rotate(0deg);
+}
+
+.product-2 {
+  --product-image: url('galerie/hero-boutique2.jpg');
+  --product-filter: hue-rotate(14deg) saturate(1.02);
+}
+
+.product-3 {
+  --product-image: url('galerie/hero-boutique3.jpg');
+  --product-filter: hue-rotate(-10deg) brightness(0.95);
+}
+
+.product-4 {
+  --product-image: url('galerie/hero-boutique4.jpg');
+  --product-filter: hue-rotate(22deg) saturate(0.92);
+}
 
 .product-body {
   padding: 1rem 1rem 1.1rem;

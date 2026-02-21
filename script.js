@@ -2,6 +2,7 @@
 const mainNav = document.querySelector('#main-nav');
 const navLinks = document.querySelectorAll('#main-nav a');
 const tabTriggers = document.querySelectorAll('[data-tab-target]');
+const productExampleActions = document.querySelectorAll('.product-visual-action[data-example-href]');
 const tabButtons = document.querySelectorAll('.tab-btn');
 const tabPanels = document.querySelectorAll('[data-tab-panel]');
 const tabsSection = document.querySelector('#tabs');
@@ -88,6 +89,29 @@ tabTriggers.forEach((trigger) => {
       mainNav.classList.remove('open');
       menuToggle.setAttribute('aria-expanded', 'false');
     }
+  });
+});
+
+productExampleActions.forEach((action) => {
+  const destination = action.dataset.exampleHref;
+  if (!destination) {
+    return;
+  }
+
+  action.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.href = destination;
+  });
+
+  action.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.href = destination;
   });
 });
 

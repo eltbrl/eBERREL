@@ -160,6 +160,7 @@
       const largeImageRoot = 'galerie/art/grand';
       let renderedCount = 0;
       const colorCache = new Map();
+      let printOptionsModal = null;
 
       function clamp(value, min, max) {
         return Math.min(max, Math.max(min, value));
@@ -302,6 +303,7 @@
             <button class="image-lightbox__close" type="button" aria-label="Fermer">&times;</button>
             <p class="image-lightbox__status">Chargement...</p>
             <img class="image-lightbox__image" alt="" hidden>
+            <button class="btn image-lightbox__add" type="button" hidden>Ajouter au panier</button>
           </div>
         `;
 
@@ -309,6 +311,7 @@
         const closeButton = overlay.querySelector('.image-lightbox__close');
         const status = overlay.querySelector('.image-lightbox__status');
         const modalImage = overlay.querySelector('.image-lightbox__image');
+        const addToCartButton = overlay.querySelector('.image-lightbox__add');
 
         let candidates = [];
         let candidateIndex = 0;
@@ -316,6 +319,7 @@
         function resetImage() {
           modalImage.hidden = true;
           modalImage.removeAttribute('src');
+          addToCartButton.hidden = true;
         }
 
         function close() {
@@ -342,9 +346,16 @@
         modalImage.addEventListener('load', () => {
           status.hidden = true;
           modalImage.hidden = false;
+          addToCartButton.hidden = false;
         });
 
         modalImage.addEventListener('error', tryNextSource);
+
+        addToCartButton.addEventListener('click', () => {
+          if (printOptionsModal) {
+            printOptionsModal.open();
+          }
+        });
 
         closeButton.addEventListener('click', close);
         overlay.addEventListener('click', (event) => {
@@ -376,6 +387,144 @@
         };
       }
 
+      function createPrintOptionsModal() {
+        const overlay = document.createElement('div');
+        overlay.className = 'print-modal';
+        overlay.innerHTML = `
+          <div class="print-modal__panel" role="dialog" aria-modal="true" aria-label="Choix d'impression">
+            <button class="print-modal__close" type="button" aria-label="Fermer">&times;</button>
+            <h2 class="print-modal__title">Choisir votre tirage</h2>
+            <p class="print-modal__subtitle">Sélectionnez un format et un type d'impression.</p>
+
+            <div class="print-modal__group">
+              <span class="print-modal__label">Type de papier</span>
+              <div class="print-modal__options" role="group" aria-label="Choix du type de papier">
+                <button class="btn print-modal__option is-selected" type="button" aria-pressed="true">Papier brillant</button>
+                <button class="btn print-modal__option" type="button" aria-pressed="false">Papier mat</button>
+              </div>
+            </div>
+
+            <div class="print-modal__group">
+              <span class="print-modal__label">Format d'impression</span>
+              <div class="print-modal__options" role="group" aria-label="Choix du format d'impression">
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A5 - 5€</span><span class="dim">(14,8 x 21 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A4 - 10€</span><span class="dim">(21 x 29,7 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A3 - 20€</span><span class="dim">(29,7 x 42 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A2 - 45</span><span class="dim">(42 x 59,4 cm)</span></button>
+              </div>
+            </div>
+            <button class="btn btn-primary print-modal__confirm" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 7z"></path>
+                <path d="M9 7a3 3 0 1 1 6 0"></path>
+              </svg>
+              <span>Ajouter au pannier</span>
+            </button>
+          </div>
+        `;
+
+        const closeButton = overlay.querySelector('.print-modal__close');
+        const confirmButton = overlay.querySelector('.print-modal__confirm');
+        const optionGroups = overlay.querySelectorAll('.print-modal__options');
+
+        function hasRequiredSelections() {
+          const paperGroup = optionGroups[0];
+          const formatGroup = optionGroups[1];
+          const hasPaper = Boolean(paperGroup?.querySelector('.print-modal__option.is-selected'));
+          const hasFormat = Boolean(formatGroup?.querySelector('.print-modal__option.is-selected'));
+          return hasPaper && hasFormat;
+        }
+
+        function syncConfirmState() {
+          if (!confirmButton) {
+            return;
+          }
+
+          const isEnabled = hasRequiredSelections();
+          confirmButton.disabled = !isEnabled;
+          confirmButton.setAttribute('aria-disabled', String(!isEnabled));
+        }
+
+        function getSelectedOptionLabel(group) {
+          const selectedOption = group?.querySelector('.print-modal__option.is-selected');
+          if (!selectedOption) {
+            return 'Non selectionne';
+          }
+          return selectedOption.textContent.replace(/\s+/g, ' ').trim();
+        }
+
+        function sendSelectedPrintOptions(selection) {
+          alert(
+            `Type de papier: ${selection.paperType}\nFormat d'impression: ${selection.printFormat}`
+          );
+        }
+
+        optionGroups.forEach((group) => {
+          const options = group.querySelectorAll('.print-modal__option');
+          options.forEach((option) => {
+            if (!option.hasAttribute('aria-pressed')) {
+              option.setAttribute('aria-pressed', option.classList.contains('is-selected') ? 'true' : 'false');
+            }
+
+            option.addEventListener('click', () => {
+              options.forEach((btn) => {
+                btn.classList.remove('is-selected');
+                btn.setAttribute('aria-pressed', 'false');
+              });
+              option.classList.add('is-selected');
+              option.setAttribute('aria-pressed', 'true');
+              syncConfirmState();
+            });
+          });
+        });
+
+        if (confirmButton) {
+          confirmButton.addEventListener('click', () => {
+            if (!hasRequiredSelections()) {
+              return;
+            }
+
+            const paperGroup = optionGroups[0];
+            const formatGroup = optionGroups[1];
+            const selection = {
+              paperType: getSelectedOptionLabel(paperGroup),
+              printFormat: getSelectedOptionLabel(formatGroup)
+            };
+
+            sendSelectedPrintOptions(selection);
+          });
+        }
+
+        function close() {
+          overlay.classList.remove('is-open');
+          document.body.classList.remove('lightbox-open');
+        }
+
+        closeButton.addEventListener('click', close);
+        overlay.addEventListener('click', (event) => {
+          if (event.target === overlay) {
+            close();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            close();
+          }
+        });
+
+        document.body.appendChild(overlay);
+        syncConfirmState();
+
+        return {
+          open() {
+            overlay.classList.add('is-open');
+            document.body.classList.add('lightbox-open');
+            syncConfirmState();
+          }
+        };
+      }
+
       function buildLargeImageSources(fileName) {
         const encoded = encodeURIComponent(fileName);
         const encodedPrefixed = encodeURIComponent(`grand-${fileName}`);
@@ -387,6 +536,7 @@
       }
 
       const imageModal = createImageModal();
+      printOptionsModal = createPrintOptionsModal();
 
       function createPhotoCard(fileName) {
         const figure = document.createElement('figure');
@@ -415,7 +565,9 @@
           <span>Ajouter au panier</span>
         </button>
         `;
-        const viewLargeButton = imageBox.querySelector('.art-photo-action');
+        const actionButtons = imageBox.querySelectorAll('.art-photo-action');
+        const viewLargeButton = actionButtons[0];
+        const addToCartButton = actionButtons[1];
 
         const image = document.createElement('img');
         image.className = 'image-art';
@@ -428,12 +580,20 @@
           syncImageBoxSize(image, imageBox);
         }, { once: true });
 
-        viewLargeButton.addEventListener('click', () => {
-          imageModal.open({
-            sources: buildLargeImageSources(fileName),
-            alt: image.alt
+        if (viewLargeButton) {
+          viewLargeButton.addEventListener('click', () => {
+            imageModal.open({
+              sources: buildLargeImageSources(fileName),
+              alt: image.alt
+            });
           });
-        });
+        }
+
+        if (addToCartButton) {
+          addToCartButton.addEventListener('click', () => {
+            printOptionsModal.open();
+          });
+        }
 
         if ('ResizeObserver' in window) {
           const observer = new ResizeObserver(() => {
