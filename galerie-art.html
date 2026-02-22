@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -21,7 +21,7 @@
   </div>
 
   <header class="site-header" id="top">
-    <a class="brand" href="index.html" aria-label="Retour en haut">
+    <a class="brand" href="#top" aria-label="Retour en haut">
       <img src="images/logo_light.png" alt="Logo Studio Visuel" class="brand-logo light-logo">
       <img src="images/logo_dark.png" alt="Logo Studio Visuel" class="brand-logo dark-logo">
       <span class="brand-name">BERREL</span>
@@ -34,9 +34,34 @@
     </button>
 
     <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
-      <a href="index.html#galerie" data-tab-target="galerie">Galerie</a>
-      <a href="index.html#boutique" data-tab-target="boutique">Boutique</a>
-      <a href="index.html#contact" data-tab-target="contact" class="cta-nav">Contact</a>
+      <a class="main-nav-link" href="#" data-tab-target="galerie">
+        <span class="main-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+            <circle cx="9" cy="10" r="1.8"></circle>
+            <path d="M20.5 15l-4.6-4.6-5.2 5.2"></path>
+          </svg>
+        </span>
+        <span>Galerie</span>
+      </a>
+      <a class="main-nav-link" href="#" data-tab-target="boutique">
+        <span class="main-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"></path>
+            <path d="M9 7a3 3 0 1 1 6 0"></path>
+          </svg>
+        </span>
+        <span>Boutique</span>
+      </a>
+      <a class="main-nav-link cta-nav" href="#" data-tab-target="contact">
+        <span class="main-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 6.5h16v11H4z"></path>
+            <path d="M4.5 7l7.5 6 7.5-6"></path>
+          </svg>
+        </span>
+        <span>Contact</span>
+      </a>
     </nav>
   </header>
 
@@ -81,26 +106,109 @@
           <section class="footer-block">
             <h3>Identite & contact</h3>
             <p><strong>Eliott Berrel - Studio BERREL</strong></p>
-            <p>Base en France � Disponible en deplacement</p>
-            <a href="mailto:eberrel@outlook.fr">eberrel@outlook.fr</a>
-            <p>Telephone: 07 67 67 67 67</p>
+            <p class="footer-contact-item">
+              <span class="footer-contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21s-6.2-4.5-6.2-10A6.2 6.2 0 0 1 12 4.8 6.2 6.2 0 0 1 18.2 11c0 5.5-6.2 10-6.2 10z"></path>
+                  <circle cx="12" cy="11" r="2.2"></circle>
+                </svg>
+              </span>
+              <span>Base en France • Disponible en deplacement</span>
+            </p>
+            <a class="footer-contact-item" href="mailto:eberrel.pro@gmail.com">
+              <span class="footer-contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3.5 6.5h17v11h-17z"></path>
+                  <path d="M4 7l8 6.2L20 7"></path>
+                </svg>
+              </span>
+              <span>eberrel.pro@gmail.com</span>
+            </a>
+            <p class="footer-contact-item">
+              <span class="footer-contact-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6 4.8h3.2l1.3 3.5-2 1.8a14.8 14.8 0 0 0 5.4 5.4l1.8-2 3.5 1.3V18a2 2 0 0 1-2 2h-.5C10.3 20 4 13.7 4 6.5V6a2 2 0 0 1 2-1.2z"></path>
+                </svg>
+              </span>
+              <span>Telephone: 07 67 67 67 67</span>
+            </p>
           </section>
 
           <section class="footer-block">
             <h3>Navigation rapide</h3>
-            <a href="#" data-tab-target="galerie">Galerie</a>
-            <a href="#" data-tab-target="boutique">Boutique</a>
-            <a href="#" data-tab-target="contact">Contact</a>
-            <a href="#about">A propos</a>
-            <a href="#" data-tab-target="boutique">Prestations / Tarifs</a>
+            <a class="footer-nav-link" href="#" data-tab-target="galerie" data-scroll-top="true">
+              <span class="footer-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+                  <circle cx="9" cy="10" r="1.8"></circle>
+                  <path d="M20.5 15l-4.6-4.6-5.2 5.2"></path>
+                </svg>
+              </span>
+              <span>Galerie</span>
+            </a>
+            <a class="footer-nav-link" href="#" data-tab-target="boutique" data-scroll-top="true">
+              <span class="footer-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 7h14l-1.2 10.5a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z"></path>
+                  <path d="M9 7a3 3 0 1 1 6 0"></path>
+                </svg>
+              </span>
+              <span>Boutique</span>
+            </a>
+            <a class="footer-nav-link" href="#" data-tab-target="contact" data-scroll-top="true">
+              <span class="footer-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 6.5h16v11H4z"></path>
+                  <path d="M4.5 7l7.5 6 7.5-6"></path>
+                </svg>
+              </span>
+              <span>Contact</span>
+            </a>
+            <a class="footer-nav-link" href="#about" data-scroll-top="true">
+              <span class="footer-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8"></circle>
+                  <path d="M12 10.2v5"></path>
+                  <circle cx="12" cy="7.4" r="0.9" fill="currentColor" stroke="none"></circle>
+                </svg>
+              </span>
+              <span>A propos</span>
+            </a>
+            <a class="footer-nav-link" href="#" data-tab-target="boutique">
+              <span class="footer-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6 7.5h10.5l1.8 2.4-5.8 6.6H6z"></path>
+                  <circle cx="8.8" cy="10" r="1"></circle>
+                  <path d="M10.8 14.6h3.4"></path>
+                  <path d="M12.5 12.9v3.4"></path>
+                </svg>
+              </span>
+              <span>Prestations / Tarifs</span>
+            </a>
           </section>
 
           <section class="footer-block">
             <h3>Reseaux sociaux</h3>
-            <a href="https://www.instagram.com/eltbrl/" target="_blank" rel="noreferrer noopener">Instagram</a>
-            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer noopener">Facebook</a>
-            <a href="https://www.pinterest.com/" target="_blank" rel="noreferrer noopener">Pinterest</a>
-            <a href="https://www.behance.net/" target="_blank" rel="noreferrer noopener">Behance</a>
+            <a class="footer-social-link" href="https://www.instagram.com/eltbrl/" target="_blank" rel="noreferrer noopener">
+              <img src="images/Instagram_icon.png" alt="" class="footer-social-icon" aria-hidden="true">
+              <span>Instagram</span>
+            </a>
+            <a class="footer-social-link" href="https://www.tiktok.com/@eberrel" target="_blank" rel="noreferrer noopener">
+              <img src="images/TikTok_icon.png" alt="" class="footer-social-icon" aria-hidden="true">
+              <span>TikTok</span>
+            </a>
+            <a class="footer-social-link" href="https://youdji.com/eliott.b" target="_blank" rel="noreferrer noopener">
+              <img src="images/Youdji_icon.png" alt="" class="footer-social-icon" aria-hidden="true">
+              <span>Youdji</span>
+            </a>
+            <a class="footer-social-link" href="https://www.behance.net/eliottbrl" target="_blank" rel="noreferrer noopener">
+              <img src="images/Behance_icon.png" alt="" class="footer-social-icon" aria-hidden="true">
+              <span>Behance</span>
+            </a>
+            <a class="footer-social-link" href="https://fr.pinterest.com/eberrelpro/" target="_blank" rel="noreferrer noopener">
+              <img src="images/Pinterest_icon.png" alt="" class="footer-social-icon" aria-hidden="true">
+              <span>Pinterest</span>
+            </a>
           </section>
 
           <section class="footer-block footer-cta">
@@ -120,7 +228,7 @@
         </div>
       </div>
 
-      <p class="footer-copyright">&copy; <span id="year"></span> Eliott Berrel - Tous droits reserves. Site realis� par Eliott Berrel.</p>
+      <p class="footer-copyright">&copy; <span id="year"></span> Eliott Berrel - Tous droits reserves. Site realisé par Eliott Berrel.</p>
     </div>
   </footer>
 
@@ -453,11 +561,11 @@
             <div class="print-modal__group">
               <span class="print-modal__label">Format d'impression</span>
               <div class="print-modal__options print-modal__options--format" role="group" aria-label="Choix du format d'impression">
-                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A5 - 5�</span><span class="dim">(14,8 x 21 cm)</span></button>
-                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A4 - 10�</span><span class="dim">(21 x 29,7 cm)</span></button>
-                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A3 - 20�</span><span class="dim">(29,7 x 42 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A5 - 5ï¿½</span><span class="dim">(14,8 x 21 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A4 - 10ï¿½</span><span class="dim">(21 x 29,7 cm)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>A3 - 20ï¿½</span><span class="dim">(29,7 x 42 cm)</span></button>
                 <button class="btn print-modal__option print-modal__option--format" type="button"><span>A2 - 45</span><span class="dim">(42 x 59,4 cm)</span></button>
-                <button class="btn print-modal__option print-modal__option--format" type="button"><span>NFT</span><span class="dim">(format num�rique)</span></button>
+                <button class="btn print-modal__option print-modal__option--format" type="button"><span>NFT</span><span class="dim">(format numï¿½rique)</span></button>
               </div>
             </div>
             <button class="btn btn-primary print-modal__confirm" type="button">
@@ -667,3 +775,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
